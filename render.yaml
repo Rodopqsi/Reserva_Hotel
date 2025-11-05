@@ -24,10 +24,11 @@ services:
         value: "3306"
       - key: MYSQL_SSL
         value: "1"
-  - type: static
+  - type: web
     name: exam-frontend
+    env: static
     plan: free
-    buildCommand: npm ci --prefix frontend && npm run build --prefix frontend
+    buildCommand: cd frontend && npm ci && npm run build
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_BASE_URL
