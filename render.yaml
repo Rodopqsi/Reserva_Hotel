@@ -22,8 +22,13 @@ services:
         sync: false
       - key: MYSQL_PORT
         value: "3306"
+      - key: MYSQL_SSL
+        value: "1"
   - type: static
     name: exam-frontend
     plan: free
     buildCommand: npm ci --prefix frontend && npm run build --prefix frontend
     staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
