@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: exam-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: gunicorn exam_backend.wsgi:application --chdir backend --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        sync: false
+      - key: DEBUG
+        value: "0"
+      - key: ALLOWED_HOSTS
+        value: exam-backend.onrender.com
+      - key: MYSQL_DATABASE
+        sync: false
+      - key: MYSQL_USER
+        sync: false
+      - key: MYSQL_PASSWORD
+        sync: false
+      - key: MYSQL_HOST
+        sync: false
+      - key: MYSQL_PORT
+        value: "3306"
+  - type: static
+    name: exam-frontend
+    plan: free
+    buildCommand: npm ci --prefix frontend && npm run build --prefix frontend
+    staticPublishPath: frontend/dist
